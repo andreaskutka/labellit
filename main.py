@@ -46,9 +46,9 @@ if authentication_status:
             user=st.secrets["dbuser"],
             password=st.secrets["dbpw"]
         )
-
+        st.spinner('Wait for it...')
         with connection as conn:
-            sql = "select * from sentences_sentence left join auth_user au on reviewer_id = au.id"
+            sql = "select status,date, username from sentences_sentence left join auth_user au on reviewer_id = au.id"
             data = pd.read_sql_query(sql, conn)
         return data
     data = pull_data()
