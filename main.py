@@ -43,6 +43,8 @@ if authentication_status:
         connection = psycopg2.connect(
             host="dpg-ccur4ml3t398cofk19l0-a.oregon-postgres.render.com",
             database="labelling",
+            user=dbuser,
+            password=dbpw
         )
 
         with connection as conn:
