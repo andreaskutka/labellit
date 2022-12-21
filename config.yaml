@@ -1,0 +1,29 @@
+credentials:
+  usernames:
+    tina:
+      email: abc@def.com
+      name: Tina
+      password: $2b$12$GgxGCPZBPHASmNQGh0sPYe8C0ium/XCBHIOfEBqCMk7M2pU8y2obi # To be replaced with hashed password
+    hudha:
+      email: abc@def.com
+      name: Hudha
+      password: $2b$12$L5tSbiavcZ/5IZSjzeEpzuxgRcqHbsy72Ucw9rFoAfy2ytqyfRsjG # To be replaced with hashed password
+    aniya:
+      email: abc@def.com
+      name: Aniya
+      password: $2b$12$JvuOJV4AbBIYw7qTIk0szOPfJXfnIvjlSyywv9cu9bv6G4.eQwqyG # To be replaced with hashed password
+    andreas:
+      email: abc@def.com
+      name: Andreas
+      password: $2b$12$HT1eRU469mSoXFhImWDXWukR96HqK3kUh7UwX5NP/9vj5iGuY1h9W # To be replaced with hashed password
+    Peter:
+      email: abc@def.com
+      name: Peter
+      password: $2b$12$.3YndHIpyoaHKsMQkFlfF.wsmB9.2/4Sknprq/X7cGwyuQ9NFO8lW # To be replaced with hashed password
+cookie:
+  expiry_days: 30
+  key: 4mwnl2n2n2n
+  name: census-labelling
+preauthorized:
+  emails:
+  - fathimath.nihan@stats.gov.mv
