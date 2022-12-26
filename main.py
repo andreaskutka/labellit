@@ -48,7 +48,7 @@ if authentication_status:
         )
         st.spinner('Wait for it...')
         with connection as conn:
-            sql = "select status,date, username from sentences_sentence left join auth_user au on reviewer_id = au.id"
+            sql = "select status,date, username, filename, batch from sentences_sentence left join auth_user au on reviewer_id = au.id"
             data = pd.read_sql_query(sql, conn)
         return data
     data = pull_data()
@@ -134,3 +134,11 @@ if authentication_status:
         by_user_by_status_df = data.groupby(['status', 'username'], as_index=False).size()
         st.bar_chart(by_user_by_status,y=['unprocessed','viewed'])
 
+    # FILENAME
+    st.subheader('# cases uploaded by filename')
+    batx = st.selectbox(
+        'Select batch',
+        options=data['batch'].unique()
+    )
+    by_filename = data.query('batch == @batx').groupby(['filename']).size()
+    st.dataframe(by_filename)
