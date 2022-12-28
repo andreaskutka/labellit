@@ -38,7 +38,7 @@ if authentication_status == None:
 if authentication_status:
 
 # ---- PULL DATA AND CASHE----
-    @st.experimental_memo
+    #@st.experimental_memo # remove loading data into cashe
     def pull_data():
         connection = psycopg2.connect(
             host="dpg-ccur4ml3t398cofk19l0-a.oregon-postgres.render.com",
