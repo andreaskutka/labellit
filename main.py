@@ -1,6 +1,6 @@
 # ---- LOAD PACKAGES ----
 import math
-from datetime import date, timedelta
+from datetime import date, timedelta, timezone
 import yaml
 
 import streamlit as st
@@ -46,9 +46,9 @@ if authentication_status:
             user=st.secrets["dbuser"],
             password=st.secrets["dbpw"]
         )
-        st.spinner('Wait for it...')
         with connection as conn:
             sql = "select status,date, username, filename, batch from sentences_sentence left join auth_user au on reviewer_id = au.id"
+            st.spinner('Wait for it...')
             data = pd.read_sql_query(sql, conn)
         return data
     data = pull_data()
@@ -86,11 +86,57 @@ if authentication_status:
 
     days_projected = math.ceil((242601 - proc_tot)/proc_p3d_mean)
 
+    # get time ago string
+    def pretty_date(time=False):
+        """
+        Get a datetime object or a int() Epoch timestamp and return a
+        pretty string like 'an hour ago', 'Yesterday', '3 months ago',
+        'just now', etc
+        """
+        from datetime import datetime
+        now = datetime.now().replace(tzinfo=timezone.utc)
+        if type(time) is int:
+            diff = now - datetime.fromtimestamp(time)
+        elif isinstance(time, datetime):
+            diff = now - time
+        elif not time:
+            diff = 0
+        second_diff = diff.seconds
+        day_diff = diff.days
+
+        if day_diff < 0:
+            return ''
+
+        if day_diff == 0:
+            if second_diff < 10:
+                return "just now"
+            if second_diff < 60:
+                return str(second_diff) + " seconds ago"
+            if second_diff < 120:
+                return "a minute ago"
+            if second_diff < 3600:
+                return str(second_diff // 60) + " minutes ago"
+            if second_diff < 7200:
+                return "an hour ago"
+            if second_diff < 86400:
+                return str(second_diff // 3600) + " hours ago"
+        if day_diff == 1:
+            return "Yesterday"
+        if day_diff < 7:
+            return str(day_diff) + " days ago"
+        if day_diff < 31:
+            return str(day_diff // 7) + " weeks ago"
+        if day_diff < 365:
+            return str(day_diff // 30) + " months ago"
+        return str(day_diff // 365) + " years ago"
+
+    lastaction=pretty_date(data.nlargest(1, columns='date')['date'].iloc[0])
+
     # ---- MAIN PAGE ----
 
     st.title('Shaviyani ISIC Labelling')
     st.write('')
-
+    st.write(f'Last action by classifiers: {lastaction}')
     # ---- MAIN METRICS -----
 
     left_column, middle_column, right_column = st.columns(3)
