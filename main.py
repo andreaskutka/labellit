@@ -48,10 +48,12 @@ if authentication_status:
         )
         with connection as conn:
             sql = "select status,date, username, filename, batch from sentences_sentence left join auth_user au on reviewer_id = au.id"
-            st.spinner('Wait for it...')
             data = pd.read_sql_query(sql, conn)
         return data
-    data = pull_data()
+
+    with st.spinner("Wait for it, we're getting the latest data..."):
+        data = pull_data()
+    time.sleep(2)
 
 # ---- SIDEBAR ----
     authenticator.logout('Logout', 'sidebar')
