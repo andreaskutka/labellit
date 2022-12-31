@@ -53,7 +53,6 @@ if authentication_status:
 
     with st.spinner("Wait for it, we're getting the latest data..."):
         data = pull_data()
-    time.sleep(2)
 
 # ---- SIDEBAR ----
     authenticator.logout('Logout', 'sidebar')
