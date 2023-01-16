@@ -191,7 +191,8 @@ if authentication_status:
 
     with right_col:
         by_user_by_status_df = data.groupby(['status', 'username'], as_index=False).size()
-        st.bar_chart(by_user_by_status, y=['unprocessed', 'viewed'])
+        rem_status = [x for x in ['unprocessed', 'viewed'] if x in data['status'].unique()]
+        st.bar_chart(by_user_by_status, y=rem_status)
 
     # FILENAME
     st.subheader('# cases uploaded by filename')
